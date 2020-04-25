@@ -47,8 +47,26 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
                 // todo 做网络请求
+                apiService.registerAccount(name,password,repassword).enqueue(new Callback<UserResponse>() {
+                    @Override
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                        if (response.body().user!=null) {
+                            //构造成功展示信息 sDisplay
+                            String sDisplay = "注册成功\n"+"id:"+response.body().user.id+"\n用户名:"+response.body().user.nickname;
+                            Toast.makeText(RegisterActivity.this,sDisplay,Toast.LENGTH_LONG).show();
+                        }
+                        else if (response.body()!=null){
+                            //构造成功展示信息 fDisplay
+                            String fDisplay = "注册失败\n"+"errorMsg:"+response.body().errorMsg+"\nerrorCode:"+response.body().errorCode;
+                            Toast.makeText(RegisterActivity.this,fDisplay,Toast.LENGTH_LONG).show();
+                        }
+                    }
 
-
+                    @Override
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+                        Toast.makeText(RegisterActivity.this,"网络失败:"+t.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
     }

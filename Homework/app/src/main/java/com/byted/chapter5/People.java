@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class People {
+    //@SerializedName 属性重命名，将json文件中的属性名转为我们自己自定义的属性名
     @SerializedName("age")
     public int age;
     @SerializedName("name")
